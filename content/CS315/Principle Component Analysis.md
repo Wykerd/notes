@@ -52,11 +52,11 @@ This means that the sample mean of the projected data is now $\mathbf{u}_1^T \ba
 Also, we calculate the new covariance matrix of the projected data: 
 (remember the property $(AB)^T = B^T A^T$)
 $$
-\begin{align}
+\begin{align*}
 C_X &= \frac{1}{N} \sum_{n = 1}^N{\left(\mathbf{u}_1^T \mathbf{x}_n - \mathbf{u}_1^T \bar{\mathbf{x}}\right)\left(\mathbf{u}_1^T \mathbf{x}_n - \mathbf{u}_1^T \bar{\mathbf{x}}\right)^T} \\
 &= \frac{1}{N} \sum_{n = 1}^N{\mathbf{u}_1^T\left(\mathbf{x}_n - \bar{\mathbf{x}}\right)\left(\mathbf{x}_n -  \bar{\mathbf{x}}\right)^T\mathbf{u}_1} \\
 &= \mathbf{u}_1^T S \mathbf{u}_1
-\end{align}
+\end{align*}
 $$
 Now, since PCA is concerned with maximising variance, we can calculate $\mathbf{u}_1$ as:
 $$

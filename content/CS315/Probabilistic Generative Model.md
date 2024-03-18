@@ -9,7 +9,9 @@ To solve for the posterior probabilities $P(C_j|\mathbf{x})$ via PGM, we follow 
 2. **Determine form** of arguments to the softmax function (with model assumptions)
 3. **Estimate parameters** for the resulting form
 
-## Two Class Case - Expanding the Posterior (Step 1)
+## Expanding the Posterior (Step 1)
+
+### Two Class Case
 
 Let us consider the key steps for the simple case of two classes. 
 
@@ -39,7 +41,7 @@ With this, we can expand the posterior:
 **NOTE: the lecturer mentioned this being in the A1 likely!**
 
 $$
-\begin{align}
+\begin{align*}
 P(C_1|\mathbf{x}) &= \frac{P(C_1, \mathbf{x})}{P(\mathbf{x})}\text{ (from the definition of joint probability)} \\
 &= \frac{P(\mathbf{x}|C_1)P(C_1)}{P(\mathbf{x})}\text{ (from the product rule)} \\
 &= \frac{P(\mathbf{x}|C_1)P(C_1)}{P(\mathbf{x}, C_1) + P(\mathbf{x}, C_2)}\text{ (from the sum rule)} \\
@@ -52,7 +54,7 @@ P(C_1|\mathbf{x}) &= \frac{P(C_1, \mathbf{x})}{P(\mathbf{x})}\text{ (from the de
 &= \frac{1}{1 + e^{-a(\mathbf{x})}} \\
 &\text{We can now notice that this is the sigmoid function} \\
 &= \sigma(a(\mathbf{x}))
-\end{align}
+\end{align*}
 $$
 
 Let's have a closer look at the implications of the definition of $a(\mathbf{x})$:
@@ -69,10 +71,10 @@ $$
 $$
 Similarly, the **posterior odds** (odds given an observation) is:
 $$
-\begin{align}
+\begin{align*}
 \text{odds}(C_1|\mathbf{x}) &= \frac{P(C_1|\mathbf{x})}{P(C_2|\mathbf{x})} \\
 &= \frac{P(\mathbf{x}, C_1)P(C_1)}{P(\mathbf{x}, C_2)P(C_2)}\text{ (product rule)}
-\end{align}
+\end{align*}
 $$
 
 Look familiar? This means that $a$ is the **log-posterior odds** of $C_1|\mathbf{x}$ 
@@ -90,13 +92,15 @@ The **logistic sigmoid function** (as above), takes the **log-posterior odds** $
 
 $\mathbf{x}$ belongs to class $C_1$ if $\text{odds} \gt 1$, otherwise $C_2$
 
-### Expanding this to the k-class case
+### k-Class Case
+
+We can expand the **two class case** above to a general $k$-class case:
 
 $$
-\begin{align}
+\begin{align*}
 P(C_n|\mathbf{x}) &= \frac{P(\mathbf{x}|C_n)P(C_n)}{\sum_{j = 1}^{k}{P(\mathbf{x}|C_j)P(C_j)}} \\
 &= \frac{\text{exp}(a_n(\mathbf{x}))}{\sum_{j = 1}^{k}{\text{exp}(a_j(\mathbf{x}))}}
-\end{align}
+\end{align*}
 $$
 
 This is the basis of the [[Softmax Function]]
@@ -142,7 +146,7 @@ $$
 Since we now know the class conditional PDFs, we can calculate the **log-posterior odds** for the **two class case** as we did before, assuming shared $\Sigma$:
 
 $$
-\begin{align}
+\begin{align*}
 a(\mathbf{x}) &= \ln{\frac{P(\mathbf{x}|C_1)P(C_1)}{P(\mathbf{x}| C_2)P(C_2)}} \\
 &= \ln{P(\mathbf{x}|C_1)} - \ln{P(\mathbf{x}| C_2)} + \ln{\frac{P(C_1)}{P(C_2)}} \\
 &= -\frac{1}{2} (\mathbf{x} - \mathbf{\mu}_1)^T\Sigma^{-1}(\mathbf{x} - \mathbf{\mu}_1) + \frac{1}{2} (\mathbf{x} - \mathbf{\mu}_2)^T\Sigma^{-1}(\mathbf{x} - \mathbf{\mu}_2) + \ln{\frac{P(C_1)}{P(C_2)}} \\
@@ -150,7 +154,7 @@ a(\mathbf{x}) &= \ln{\frac{P(\mathbf{x}|C_1)P(C_1)}{P(\mathbf{x}| C_2)P(C_2)}} \
 &+ \frac{1}{2}\left[ \mathbf{x}^T\Sigma^{-1}\mathbf{x} - 2\mathbf{\mu}_2^T\Sigma^{-1}\mathbf{x} + \mathbf{\mu}_2^T\Sigma^{-1}\mathbf{\mu}_2 \right]  + \ln{\frac{P(C_1)}{P(C_2)}} \\
 &= \mathbf{\mu}_1^T\Sigma^{-1}\mathbf{x} -\frac{1}{2}\mathbf{\mu}_1^T\Sigma^{-1}\mathbf{\mu}_1 -\mathbf{\mu}_2^T\Sigma^{-1}\mathbf{x} + \frac{1}{2}\mathbf{\mu}_2^T\Sigma^{-1}\mathbf{\mu}_2  + \ln{\frac{P(C_1)}{P(C_2)}} \\
 &= (\mathbf{\mu}_1 - \mathbf{\mu}_2)^T\Sigma^{-1}\mathbf{x} + \left[\frac{1}{2}\left(\mathbf{\mu}_2^T\Sigma^{-1}\mathbf{\mu}_2 - \mathbf{\mu}_1^T\Sigma^{-1}\mathbf{\mu}_1\right) + \ln{\frac{P(C_1)}{P(C_2)}}\right]
-\end{align}
+\end{align*}
 $$
 
 Wow! If we make $\Sigma$ shared, the quadratic terms ($\mathbf{x}^T \Sigma^{-1} \mathbf{x}$) cancels out, resulting in a linear classifier. Let's define some terms to make it more obvious:
@@ -173,20 +177,20 @@ $$
 
 Where the probability of both classes are the same, i.e. they equal 0.5.
 $$
-\begin{align}
+\begin{align*}
 P(C_1|\mathbf{x}) &= P(C_2|\mathbf{x}) = 1 - P(C_1|\mathbf{x}) \\
 &= \frac{1}{2} \\
 \sigma(\mathbf{w}^T\mathbf{x}+w_0) &= \frac{1}{2} \\
 \therefore\text{ }\mathbf{w}^T\mathbf{x}+w_0 &= 0\text{ (sigmoid is 0.5 at 0)}
-\end{align}
+\end{align*}
 $$
 ### k-Class Case
 Similar to above, we can find:
 $$
-\begin{align}
+\begin{align*}
 P(C_j|\mathbf{x}) &= \frac{\text{exp}(a_n(\mathbf{x}))}{\sum_{j = 1}^{k}{\text{exp}(a_j(\mathbf{x}))}} \\
 a_j &= \mathbf{w}_j^T \mathbf{x} + w_{j0} \\
 \mathbf{w}_j &= \Sigma^{-1}\mathbf{\mu}_j \\
 w_{j0} &= \frac{1}{2}\mathbf{\mu}_j^T\Sigma^{-1}\mathbf{\mu}_j + \ln{P(C_j)}
-\end{align}
+\end{align*}
 $$
