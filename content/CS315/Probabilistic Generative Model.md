@@ -9,7 +9,7 @@ To solve for the posterior probabilities $P(C_j|\mathbf{x})$ via PGM, we follow 
 2. **Determine form** of arguments to the softmax function (with model assumptions)
 3. **Estimate parameters** for the resulting form
 
-## Expanding the Posterior (Step 1)
+## Expanding the Posterior
 
 ### Two Class Case
 
@@ -162,7 +162,7 @@ Wow! If we make $\Sigma$ shared, the quadratic terms ($\mathbf{x}^T \Sigma^{-1} 
 - $\mathbf{w}^T = (\mathbf{\mu}_1 - \mathbf{\mu}_2)^T\Sigma^{-1} \Rightarrow \mathbf{w} = \Sigma^{-1}(\mathbf{\mu}_1 - \mathbf{\mu}_2)$ 
 	- _we can do $(\Sigma^{-1})^T = \Sigma^{-1}$ _since the covariance matrix is symmetrical _
 - $w_0 = \frac{1}{2}\left(\mathbf{\mu}_2^T\Sigma^{-1}\mathbf{\mu}_2 - \mathbf{\mu}_1^T\Sigma^{-1}\mathbf{\mu}_1\right) + \ln{\frac{P(C_1)}{P(C_2)}}$ 
-	- Which is the **bias** term (constant)
+	- Which is the **bias** term (constant) and contains the prior probabilities
 
 Making the **log-posterior probability** simplified to:
 $$
@@ -185,6 +185,7 @@ P(C_1|\mathbf{x}) &= P(C_2|\mathbf{x}) = 1 - P(C_1|\mathbf{x}) \\
 \end{align*}
 $$
 ### k-Class Case
+
 Similar to above, we can find:
 $$
 \begin{align*}
@@ -194,3 +195,55 @@ a_j &= \mathbf{w}_j^T \mathbf{x} + w_{j0} \\
 w_{j0} &= \frac{1}{2}\mathbf{\mu}_j^T\Sigma^{-1}\mathbf{\mu}_j + \ln{P(C_j)}
 \end{align*}
 $$
+
+## Parameter Estimation
+
+To find the parameters for the class conditional densities and the prior probabilities we need a **fully observed** dataset, this means observations along with their class labels.
+
+### Maximum Likelihood Estimation (MLE)
+
+We can determine the means and covariance matrix for each class using the usual methods:
+
+Means:
+
+$$
+\mathbf{\mu}_j = \frac{1}{N_j} \sum_{\{i:y_i \in C_j\}}{\mathbf{x}_i}
+$$
+With $N_j$ being the amount of observations in class $C_j$
+
+Covariances:
+$$
+\Sigma_j = \frac{1}{N_j}\sum_{\{i:y_i \in C_j\}}{(\mathbf{x}_i - \mathbf{\mu}_j)(\mathbf{x}_i - \mathbf{\mu}_j)^T}
+$$
+
+From maximum likelihood, we can find the prior probabilities as:
+$$
+P(C_j) = \frac{N_j}{N}
+$$
+### The Flaws of MLE
+
+The MLE approach is **expensive** to compute. With $d$ input dimensions and $k$ classes:
+- each class has a mean with $d$ parameters
+- each class has a symmetrical covariance matrix containing $\frac{d\cdot(d+1)}{2}$ parameters
+
+This results in a parameter count of 
+$$
+k \left[d + \frac{d\cdot(d+1)}{2}\right] = \frac{k \cdot d \cdot (d+3)}{2}
+$$
+
+If we share the covariance matrix, this reduces to:
+$$
+kd + \frac{d\cdot(d+1)}{2}
+$$
+
+However, sharing a covariance matrix may cause issues, since classes may not have the same covariances and thereby a shared matrix might not give a good description of each class.
+
+This leads us to the [[Naive Bayes]] approach, which assumes a diagonal covariance matrix for each class, resulting in a parameter count of
+
+$$
+2kd
+$$
+
+This strikes a good middle ground between a per class full covariance matrix and a shared covariance matrix.
+
+Read more in the [[Naive Bayes]] notes.
