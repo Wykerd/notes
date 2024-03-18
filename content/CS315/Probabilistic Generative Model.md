@@ -85,6 +85,7 @@ $$
 **What does this mean?!**
 
 ![[Pasted image 20240318083823.png|300]]
+
 The **logistic sigmoid function** (as above), takes the **log-posterior odds** $a(\mathbf{x})$ and maps it to a value between 0 and 1, thereby assigning a **posterior probability** to $\mathbf{x}$
 
 $\mathbf{x}$ belongs to class $C_1$ if $\text{odds} \gt 1$, otherwise $C_2$
@@ -145,7 +146,8 @@ $$
 a(\mathbf{x}) &= \ln{\frac{P(\mathbf{x}|C_1)P(C_1)}{P(\mathbf{x}| C_2)P(C_2)}} \\
 &= \ln{P(\mathbf{x}|C_1)} - \ln{P(\mathbf{x}| C_2)} + \ln{\frac{P(C_1)}{P(C_2)}} \\
 &= -\frac{1}{2} (\mathbf{x} - \mathbf{\mu}_1)^T\Sigma^{-1}(\mathbf{x} - \mathbf{\mu}_1) + \frac{1}{2} (\mathbf{x} - \mathbf{\mu}_2)^T\Sigma^{-1}(\mathbf{x} - \mathbf{\mu}_2) + \ln{\frac{P(C_1)}{P(C_2)}} \\
-&= -\frac{1}{2}\left[ \mathbf{x}^T\Sigma^{-1}\mathbf{x} - 2\mathbf{\mu}_1^T\Sigma^{-1}\mathbf{x} + \mathbf{\mu}_1^T\Sigma^{-1}\mathbf{\mu}_1 \right] + \frac{1}{2}\left[ \mathbf{x}^T\Sigma^{-1}\mathbf{x} - 2\mathbf{\mu}_2^T\Sigma^{-1}\mathbf{x} + \mathbf{\mu}_2^T\Sigma^{-1}\mathbf{\mu}_2 \right]  + \ln{\frac{P(C_1)}{P(C_2)}} \\
+&= -\frac{1}{2}\left[ \mathbf{x}^T\Sigma^{-1}\mathbf{x} - 2\mathbf{\mu}_1^T\Sigma^{-1}\mathbf{x} + \mathbf{\mu}_1^T\Sigma^{-1}\mathbf{\mu}_1 \right] \\
+&+ \frac{1}{2}\left[ \mathbf{x}^T\Sigma^{-1}\mathbf{x} - 2\mathbf{\mu}_2^T\Sigma^{-1}\mathbf{x} + \mathbf{\mu}_2^T\Sigma^{-1}\mathbf{\mu}_2 \right]  + \ln{\frac{P(C_1)}{P(C_2)}} \\
 &= \mathbf{\mu}_1^T\Sigma^{-1}\mathbf{x} -\frac{1}{2}\mathbf{\mu}_1^T\Sigma^{-1}\mathbf{\mu}_1 -\mathbf{\mu}_2^T\Sigma^{-1}\mathbf{x} + \frac{1}{2}\mathbf{\mu}_2^T\Sigma^{-1}\mathbf{\mu}_2  + \ln{\frac{P(C_1)}{P(C_2)}} \\
 &= (\mathbf{\mu}_1 - \mathbf{\mu}_2)^T\Sigma^{-1}\mathbf{x} + \left[\frac{1}{2}\left(\mathbf{\mu}_2^T\Sigma^{-1}\mathbf{\mu}_2 - \mathbf{\mu}_1^T\Sigma^{-1}\mathbf{\mu}_1\right) + \ln{\frac{P(C_1)}{P(C_2)}}\right]
 \end{align}
@@ -178,7 +180,7 @@ P(C_1|\mathbf{x}) &= P(C_2|\mathbf{x}) = 1 - P(C_1|\mathbf{x}) \\
 \therefore\text{ }\mathbf{w}^T\mathbf{x}+w_0 &= 0\text{ (sigmoid is 0.5 at 0)}
 \end{align}
 $$
-### k-class Case
+### k-Class Case
 Similar to above, we can find:
 $$
 \begin{align}

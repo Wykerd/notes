@@ -19,4 +19,5 @@ Well, here's quick comparison:
 | Simpler Training (per class)      | Harder Training                   |
 | Class Data                        | All Data                          |
 | Models each class                 | Focusses on class differences     |
+
 In other words: The generative model is trained per class **and ignores the properties of the other classes**, while the discriminative model considers **all data** during training.
