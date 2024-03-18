@@ -136,7 +136,9 @@ $$
 $$
 ## What's our Log-Posterior Odds?
 
-Since we now know the class conditional PDFs, we can calculate the **log-posterior odds** for the two class case as we did before, assuming shared $\Sigma$:
+### Two Class Case
+
+Since we now know the class conditional PDFs, we can calculate the **log-posterior odds** for the **two class case** as we did before, assuming shared $\Sigma$:
 
 $$
 \begin{align}
@@ -149,7 +151,7 @@ a(\mathbf{x}) &= \ln{\frac{P(\mathbf{x}|C_1)P(C_1)}{P(\mathbf{x}| C_2)P(C_2)}} \
 \end{align}
 $$
 
-Wow! It's linear! Let's define some terms to make it more obvious:
+Wow! If we make $\Sigma$ shared, the quadratic terms ($\mathbf{x}^T \Sigma^{-1} \mathbf{x}$) cancels out, resulting in a linear classifier. Let's define some terms to make it more obvious:
 
 - $\mathbf{w}^T = (\mathbf{\mu}_1 - \mathbf{\mu}_2)^T\Sigma^{-1} \Rightarrow \mathbf{w} = \Sigma^{-1}(\mathbf{\mu}_1 - \mathbf{\mu}_2)$ 
 	- _we can do $(\Sigma^{-1})^T = \Sigma^{-1}$ _since the covariance matrix is symmetrical _
@@ -159,4 +161,30 @@ Wow! It's linear! Let's define some terms to make it more obvious:
 Making the **log-posterior probability** simplified to:
 $$
 a(\mathbf{x}) = \mathbf{w}^T \mathbf{x} + w_0
+$$
+With the shared $\Sigma$, we have a diagonal matrix, therefore containing $\frac{d\cdot(d+1)}{2}$ parameters. Each $\mathbf{\mu}_i$ also contains $d$ parameters. Therefore, the total amount of parameters required for the **two class generative classifier** is:
+$$
+2d + \frac{d\cdot(d+1)}{2}\text{ from }\mathbf{\mu}_1,\mathbf{\mu}_2\text{ and }\Sigma
+$$
+
+**Where's the decision boundary?**
+
+Where the probability of both classes are the same, i.e. they equal 0.5.
+$$
+\begin{align}
+P(C_1|\mathbf{x}) &= P(C_2|\mathbf{x}) = 1 - P(C_1|\mathbf{x}) \\
+&= \frac{1}{2} \\
+\sigma(\mathbf{w}^T\mathbf{x}+w_0) &= \frac{1}{2} \\
+\therefore\text{ }\mathbf{w}^T\mathbf{x}+w_0 &= 0\text{ (sigmoid is 0.5 at 0)}
+\end{align}
+$$
+### k-class Case
+Similar to above, we can find:
+$$
+\begin{align}
+P(C_j|\mathbf{x}) &= \frac{\text{exp}(a_n(\mathbf{x}))}{\sum_{j = 1}^{k}{\text{exp}(a_j(\mathbf{x}))}} \\
+a_j &= \mathbf{w}_j^T \mathbf{x} + w_{j0} \\
+\mathbf{w}_j &= \Sigma^{-1}\mathbf{\mu}_j \\
+w_{j0} &= \frac{1}{2}\mathbf{\mu}_j^T\Sigma^{-1}\mathbf{\mu}_j + \ln{P(C_j)}
+\end{align}
 $$
